@@ -155,7 +155,7 @@ class Footer extends Component {
                 <div className="container">
                     <div className="row">
                     <p className="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p>
-                    <p className="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span>
+                    <p className="pull-right">Re-designed by <span><a target="_blank" href="https://github.com/ngmanhtruong">Truong Nguyen</a></span>
                     </p>
                     </div>
                 </div>

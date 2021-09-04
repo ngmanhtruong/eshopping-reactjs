@@ -1,21 +1,48 @@
 <?php
-	header('Content-type: application/json');
-	$status = array(
-		'type'=>'success',
-		'message'=>'Thank you for contact us. As early as possible  we will contact you '
-	);
+use PHPMailer\PHPMailer\PHPMailer;
 
-    $name       = @trim(stripslashes($_POST['name'])); 
-    $email      = @trim(stripslashes($_POST['email'])); 
-    $subject    = @trim(stripslashes($_POST['subject'])); 
-    $message    = @trim(stripslashes($_POST['message'])); 
+require_once 'phpmailer/Exception.php';
+require_once 'phpmailer/PHPMailer.php';
+require_once 'phpmailer/SMTP.php';
 
-    $email_from = $email;
-    $email_to = 'email@email.com';//replace with your email
+$mail = new PHPMailer(true);
 
-    $body = 'Name: ' . $name . "\n\n" . 'Email: ' . $email . "\n\n" . 'Subject: ' . $subject . "\n\n" . 'Message: ' . $message;
+$alert = '';
 
-    $success = @mail($email_to, $subject, $body, 'From: <'.$email_from.'>');
+if (isset($_POST['submit'])){
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $subject = $_POST['subject']
+    $message = $_POST['message'];
 
-    echo json_encode($status);
-    die;
+    try{
+        $mail=>isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'mysterioust.mysterioust@gmail.com';
+        $mail->Password = 'code01208102602';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = '587';
+
+        $mail->setFrom('mysterioust.mysterioust@gmail.com');
+        $mail->addAddress('ng.manhtruong1996@gmail.com');
+
+        $mail->isHTML(true);
+        $mail->Subject = 'Message Received (Contact Page)';
+        $mail->Body = '<h3>Name: $name <br>Email: $email <br>Message : $message</h3>';
+
+        $mail->send();
+        $alert = '<div class = "alert-success">
+                    <span>Message Sent! Thank you for contacting me.</span>
+                  </div>';
+
+    } catch (Exception $e){
+        $alert = '<div class="alert-error">
+                    <span>'.$e->getMessage().'</span>
+                  </div>';
+    }
+}
+
+
+
+?>

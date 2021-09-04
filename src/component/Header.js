@@ -1,6 +1,53 @@
 import React, { Component } from 'react';
+import {Link, NavLink} from 'react-router-dom';
 
 class Header extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            query: "",
+            data: [],
+            filteredData : [],
+            searchValue: '',
+            productState: '',
+        }
+        this.handleChange = this.handleChange.bind(this);
+    }
+    handleChange(ev){
+        let value = ev.target.value;
+        this.setState({searchValue: value,filteredData:[]});
+        if(value && value.trim().length > 0){
+            value = value.trim().toLowerCase();
+            let temp = this.state.data.filter(product=>{
+                return product.title.trim().toLowerCase().includes(value);
+            }).sort((a,b)=>{
+                return this.getRelevancy(b.title,value) - this.getRelevancy(a.title,value);
+            });
+            this.setState({filteredData:temp});
+        } else{
+            this.setState({filteredData:[]});
+        }
+    }
+    changeProductState = (id)=>{
+        this.setState({productState:id});
+    }
+    getRelevancy(value, searchTerm){
+        if (value === searchTerm){
+            return 2;
+        } else if (value.startsWith(searchTerm)){
+            return 1;
+        } else if (value.includes(searchTerm)){
+            return 0;
+        }
+    }
+    getData = () =>{
+        fetch('https://fakestoreapi.com/products')
+            .then(res=>res.json())
+            .then(data=>this.setState({data:data}));
+    }
+    componentDidMount(){
+        this.getData();
+    }
     render() {
         return (
             <header id="header">{/*<!--header-->*/}
@@ -10,19 +57,18 @@ class Header extends Component {
                             <div className="col-sm-6">
                                 <div className="contactinfo">
                                     <ul className="nav nav-pills">
-                                        <li><a href="#"><i className="fa fa-phone"></i> +2 95 01 88 821</a></li>
-                                        <li><a href="#"><i className="fa fa-envelope"></i> info@domain.com</a></li>
+                                        <li><Link to="#"><i className="fa fa-phone"></i> +84 934 686 272</Link></li>
+                                        <li><a href="mailto:ng.manhtruong1996@gmail.com"><i className="fa fa-envelope"></i>ng.manhtruong1996@gmail.com</a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div className="col-sm-6">
                                 <div className="social-icons pull-right">
                                     <ul className="nav navbar-nav">
-                                        <li><a href="#"><i className="fa fa-facebook"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-twitter"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-linkedin"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-dribbble"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-google-plus"></i></a></li>
+                                        <li><Link to="https://www.facebook.com/testarudo.nino" target="_blank"><i className="fa fa-facebook"></i></Link></li>
+                                        <li><Link to="https://github.com/ngmanhtruong"><i className="fa fa-github"></i></Link></li>
+                                        <li><Link to="https://www.linkedin.com/in/ngmanhtruong/" target="_blank"><i className="fa fa-linkedin"></i></Link></li>
+                                        <li><Link to="https://truongnguyen.surge.sh/" target="_blank"><i className="fas fa-portrait"></i></Link></li>
                                     </ul>
                                 </div>
                             </div>
@@ -35,7 +81,7 @@ class Header extends Component {
                         <div className="row">
                             <div className="col-sm-4">
                                 <div className="logo pull-left">
-                                    <a href="index.html"><img src="images/home/logo.png" alt="" /></a>
+                                    <Link to="index.html"><img src="images/home/logo.png" alt="" /></Link>
                                 </div>
                                 <div className="btn-group pull-right">
                                     <div className="btn-group">
@@ -44,8 +90,8 @@ class Header extends Component {
                                             <span className="caret"></span>
                                         </button>
                                         <ul className="dropdown-menu">
-                                            <li><a href="#">Canada</a></li>
-                                            <li><a href="#">UK</a></li>
+                                            <li><Link to="#">Canada</Link></li>
+                                            <li><Link to="#">UK</Link></li>
                                         </ul>
                                     </div>
                                     
@@ -55,8 +101,8 @@ class Header extends Component {
                                             <span className="caret"></span>
                                         </button>
                                         <ul className="dropdown-menu">
-                                            <li><a href="#">Canadian Dollar</a></li>
-                                            <li><a href="#">Pound</a></li>
+                                            <li><Link to="#">Canadian Dollar</Link></li>
+                                            <li><Link to="#">Pound</Link></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -64,11 +110,11 @@ class Header extends Component {
                             <div className="col-sm-8">
                                 <div className="shop-menu pull-right">
                                     <ul className="nav navbar-nav">
-                                        <li><a href="#"><i className="fa fa-user"></i> Account</a></li>
-                                        <li><a href="#"><i className="fa fa-star"></i> Wishlist</a></li>
-                                        <li><a href="checkout.html"><i className="fa fa-crosshairs"></i> Checkout</a></li>
-                                        <li><a href="cart.html"><i className="fa fa-shopping-cart"></i> Cart</a></li>
-                                        <li><a href="login.html"><i className="fa fa-lock"></i> Login</a></li>
+                                        <li><Link to="#"><i className="fa fa-user"></i> Account</Link></li>
+                                        <li><Link to="#"><i className="fa fa-star"></i> Wishlist</Link></li>
+                                        <li><NavLink to="/checkout" exact activeClassName="active"><i className="fa fa-crosshairs"></i>Checkout</NavLink></li> 
+                                                <li><NavLink to="/cart" exact activeClassName="active"><i className="fa fa-shopping-cart"></i>Cart</NavLink></li> 
+                                                <li><NavLink to="/login" exact activeClassName="active"><i className="fa fa-lock"></i> Login</NavLink></li> 
                                     </ul>
                                 </div>
                             </div>
@@ -90,31 +136,39 @@ class Header extends Component {
                                 </div>
                                 <div className="mainmenu pull-left">
                                     <ul className="nav navbar-nav collapse navbar-collapse">
-                                        <li><a href="index.html" className="active">Home</a></li>
-                                        <li className="dropdown"><a href="#">Shop<i className="fa fa-angle-down"></i></a>
+                                        <li><NavLink to = "/" exact activeClassName="active">Home</NavLink></li>
+                                        <li className="dropdown"><Link to = "#">Products<i className="fa fa-angle-down"></i></Link> 
                                             <ul role="menu" className="sub-menu">
-                                                <li><a href="shop.html">Products</a></li>
-                                                <li><a href="product-details.html">Product Details</a></li> 
-                                                <li><a href="checkout.html">Checkout</a></li> 
-                                                <li><a href="cart.html">Cart</a></li> 
-                                                <li><a href="login.html">Login</a></li> 
+                                                <li><NavLink to="/shop" exact activeClassName="active">All Products</NavLink> </li>
+                                                <li><NavLink to="/detail" exact activeClassName="active">Product Details</NavLink></li> 
                                             </ul>
                                         </li> 
-                                        <li className="dropdown"><a href="#">Blog<i className="fa fa-angle-down"></i></a>
+                                        <li className="dropdown"><NavLink to="/blog" exact activeClassName="active">Blog<i className="fa fa-angle-down"></i></NavLink>
                                             <ul role="menu" className="sub-menu">
-                                                <li><a href="blog.html">Blog List</a></li>
-                                                <li><a href="blog-single.html">Blog Single</a></li>
+                                                <li><NavLink to="/blog-list" exact activeClassName="active">Blog List</NavLink></li>
+                                                <li><NavLink to="/blog-single" exact activeClassName="active">Blog Single</NavLink></li>
                                             </ul>
                                         </li> 
-                                        <li><a href="404.html">404</a></li>
-                                        <li><a href="contact-us.html">Contact</a></li>
+                                        <li><NavLink to="/contact" exact activeClassName="active">Contact</NavLink></li>
                                     </ul>
                                 </div>
                             </div>
                             <div className="col-sm-3">
                                 <div className="search_box pull-right">
-                                    <input type="text" placeholder="Search"/>
-                                </div>
+                                    <input type="text" placeholder="Search" name = "search" id = "search" value = {this.state.searchValue} onChange = {this.handleChange}/>
+                                    {/*value = {this.state.query}
+                                    onChange = {this.handleInputChange}*/}
+                                    <ul className = "list-group" id ="search-result">
+                                        {this.state.filteredData.map(item=>{
+                                            return(
+                                                <li className="list-group-item" key={item.id}>
+                                                    <Link to={`/detail/?category=${item.category}&id=${item.id}`}>{item.title}</Link> 
+                                                    {/* onClick = {()=>this.changeProductState(item.id)} */}
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>  
+                                </div>                          
                             </div>
                         </div>
                     </div>
