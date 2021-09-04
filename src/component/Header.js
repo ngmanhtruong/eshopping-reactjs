@@ -140,7 +140,7 @@ class Header extends Component {
                                         <li className="dropdown"><Link to = "#">Products<i className="fa fa-angle-down"></i></Link> 
                                             <ul role="menu" className="sub-menu">
                                                 <li><NavLink to="/shop" exact activeClassName="active">All Products</NavLink> </li>
-                                                <li><NavLink to="/detail" exact activeClassName="active">Product Details</NavLink></li> 
+                                                <li><NavLink to="/detail/1" exact activeClassName="active">Product Details</NavLink></li> 
                                             </ul>
                                         </li> 
                                         <li className="dropdown"><NavLink to="/blog" exact activeClassName="active">Blog<i className="fa fa-angle-down"></i></NavLink>

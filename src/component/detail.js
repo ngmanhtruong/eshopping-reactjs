@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { useParams } from 'react-router';
 import NoMatch from './404Error';
 import Category from './category';
 import CountingProducts from './countingProducts';
 import LeftSideBar from './leftSideBar';
 import Product from './product';
+import { withRouter } from 'react-router';
 
 class Detail extends Component {
     constructor(props){
@@ -13,27 +15,14 @@ class Detail extends Component {
             category: [],
             product : [],
             recProduct: [],
-            count: 0,
-            productId: this.props.id,
             newCategory: '',
+            id: {},
         }
     }
     removeFromArray = (arr,id)=>{
         return arr.filter(function(e){
             return (e.id != id);
         });
-    }
-    checkURL(){
-        let queryString = window.location.search;
-        let urlParams = new URLSearchParams(queryString);
-        if (urlParams.has('category')){
-            let category = urlParams.get('category');
-            let id = urlParams.get('id');
-            this.setState({productId: id,newCategory:category});
-            this.getData(this.state.data,id);
-        }
-        else
-            return false;
     }
     getData(data,id){
         data.map(product=>{
@@ -54,28 +43,17 @@ class Detail extends Component {
         fetch('https://fakestoreapi.com/products')
             .then(res=>res.json())
             .then(data=>{
-                this.setState({data:data});
-                this.getData(data,this.state.productId);
+                this.setState({data:data,id:this.props.match.params.id});
+                this.getData(data,this.state.id);
                 fetch('https://fakestoreapi.com/products/categories')
                 .then(res=>res.json())
                 .then(data=>this.setState({category:data}));
             })
             .catch((err)=>console.log(err));
-        this.checkURL();
-    }
-    countFunction(arr){
-        let count = 0;
-        arr.forEach(()=>{
-            count++;
-        })
-        return count;
-    }
-    resetCount(){
-        this.setState({count: 0})
     }
     render() {
         return (
-            this.state.data == null && isNaN(id) ? <NoMatch />:
+            this.state.data == null && isNaN(this.state.id) ? <NoMatch />:
             <section>
                 <div className="container">
                     <div className="row">
@@ -94,43 +72,49 @@ class Detail extends Component {
                                     <div id="similar-product" className="carousel slide" data-ride="carousel">
                                         
                                         {/* <!-- Wrapper for slides --> */}
-                                            <div className="carousel-inner">
-                                                <div className="item active">
-                                                    {this.state.recProduct.map((data,index)=>{
-                                                        if(index <3){
-                                                            return (
-                                                                <a key= {data.id} href=""><img src={data.image} alt={data.title}/></a>
-                                                            )
-                                                        }
-                                                    })}
-                                                </div>
-                                                <div className="item">
-                                                    {this.state.recProduct.map((data,index)=>{
-                                                        if(index >2 && index <6)
-                                                            return (
-                                                                <a key= {data.id} href=""><img src={data.image} alt={data.title}/></a>
-                                                            )
-                                                    })}	
-                                                </div>
-                                                {this.countFunction(this.state.recProduct)>6?
-                                                <div className="item">
-                                                    {this.state.recProduct.map((data,index)=>{
-                                                        if(index >5 && index <9)
-                                                            return (
-                                                                <a key= {data.id} href=""><img src={data.image} alt={data.title}/></a>
-                                                            )
-                                                    })}	
-                                                </div>:''}
-
+                                        <div className="carousel-inner">
+                                            <div className="item active">
+                                                {this.state.recProduct.map((data,index)=>{
+                                                    if(index <3){
+                                                        return (
+                                                            <a key= {data.id} href=""><img src={data.image} alt={data.title}/></a>
+                                                        )
+                                                    }
+                                                })}
                                             </div>
+                                            {this.state.recProduct.length > 3 &&
+                                            <div className="item">
+                                                {this.state.recProduct.map((data,index)=>{
+                                                    if(index >2 && index <6)
+                                                        return (
+                                                            <a key= {data.id} href=""><img src={data.image} alt={data.title}/></a>
+                                                        )
+                                                })}	
+                                            </div>
+                                            }
+                                            {this.state.recProduct.length > 6 &&
+                                            <div className="item">
+                                                {this.state.recProduct.map((data,index)=>{
+                                                    if(index >5 && index <9)
+                                                        return (
+                                                            <a key= {data.id} href=""><img src={data.image} alt={data.title}/></a>
+                                                        )
+                                                })}	
+                                            </div>}
+
+                                        </div>
 
                                         {/* <!-- Controls --> */}
+                                        {this.state.recProduct.length >3 &&
+                                        <>
                                         <a className="left item-control" href="#similar-product" data-slide="prev">
                                             <i className="fa fa-angle-left"></i>
                                         </a>
                                         <a className="right item-control" href="#similar-product" data-slide="next">
                                             <i className="fa fa-angle-right"></i>
                                         </a>
+                                        </>
+                                        }
                                     </div>
 
                                 </div>
@@ -222,6 +206,7 @@ class Detail extends Component {
                                                     )
                                             })}	
                                         </div>
+                                        {this.state.recProduct.length > 3 &&
                                         <div className="item">
                                             {this.state.recProduct.map((value,index)=>{
                                                 if(index > 2 && index < 6){
@@ -231,13 +216,18 @@ class Detail extends Component {
                                                 }
                                             })}
                                         </div>
+                                        }
                                     </div>
+                                    {this.state.recProduct.length > 3 &&
+                                    <>
                                     <a className="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
                                         <i className="fa fa-angle-left"></i>
                                     </a>
                                     <a className="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
                                         <i className="fa fa-angle-right"></i>
-                                    </a>			
+                                    </a>		
+                                    </>
+                                    }	
                                 </div>
                             </div>
                             {/* <!--/recommended_items--> */}
@@ -250,4 +240,4 @@ class Detail extends Component {
     }
 }
 
-export default Detail;
+export default withRouter(Detail);

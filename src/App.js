@@ -51,8 +51,7 @@ function App() {
           <Route path = "/shop">
             <ShopPage />
           </Route>
-          <Route path = "/detail/:id" children={<DetailHook />}>
-            
+          <Route path = "/detail/:id" children={<Detail />}>
           </Route>
           <Route path = "/checkout">
             <CheckOut />
