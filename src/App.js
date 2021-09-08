@@ -18,13 +18,6 @@ import React, { Component, useState,useEffect } from 'react';
 import DetailHook from './component/detailHook';
 
 function App() {
-  // const [category,setCategory] = useState([]);
-
-  // useEffect(()=>{
-  //   fetch('https://fakestoreapi.com/products/categories')
-  //     .then(res=>res.json())
-  //     .then(data=>{setCategory(data)});
-  // })
   return (
     <>
     <Router>
@@ -36,44 +29,45 @@ function App() {
             <Slider />
             <Homepage />
           </Route>
-          {/* <Route path={`/shop/${category[0]}`}>
-            <ShopPage category={category[0]} />
+
+          <Route path = "/shop/:category" children={<ShopPage />}>
           </Route>
-          <Route path={`/shop/${category[1]}`}>
-            <ShopPage category={category[1]} />
-          </Route>
-          <Route path={`/shop/${category[2]}`}>
-            <ShopPage category={category[2]} />
-          </Route>
-          <Route path={`/shop/${category[3]}`}>
-            <ShopPage category={category[3]} />
-          </Route> */}
+
           <Route path = "/shop">
             <ShopPage />
           </Route>
+
           <Route path = "/detail/:id" children={<Detail />}>
           </Route>
+
           <Route path = "/checkout">
             <CheckOut />
           </Route>
+
           <Route path = "/cart">
             <Cart />
           </Route>
+
           <Route path = "/login">
             <Login />
           </Route>
+
           <Route path = "/contact">
             <Contact />
           </Route>
+
           <Route path = "/blog-list">
             <Blog />
           </Route>
+
           <Route path = "/blog-single">
             <BlogSingle />
           </Route>
+          
           {/* <Route path = "/thankyou">
             <Thankyou />
           </Route> */}
+
           {/* ERROR 404 */}
           <Route path = "*">
             <NoMatch />

@@ -6,7 +6,6 @@ class BlogSingle extends Component {
         super(props)
         this.state = {
             data: [],
-            category: []
         }
     }
     componentDidMount(){
@@ -14,9 +13,6 @@ class BlogSingle extends Component {
             .then(res=>res.json())
             .then(data=>{
                 this.setState({data:data});
-                fetch('https://fakestoreapi.com/products/categories')
-                .then(res=>res.json())
-                .then(data=>this.setState({category:data}));
             });
     }
     render() {
@@ -25,7 +21,7 @@ class BlogSingle extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-sm-3">
-                        <LeftSideBar data={this.state.data} category = {this.state.category}/>
+                        <LeftSideBar data={this.state.data}/>
                     </div>
                     <div className="col-sm-9">
                         <div className="blog-post-area">
@@ -174,26 +170,26 @@ class BlogSingle extends Component {
                                             <label>Your Name</label>
                                         </div>
                                         <span>*</span>
-                                        <input type="text" placeholder="write your name..."/>
+                                        <input type="text" placeholder="Your name..."/>
                                         <div className="blank-arrow">
                                             <label>Email Address</label>
                                         </div>
                                         <span>*</span>
-                                        <input type="email" placeholder="your email address..."/>
+                                        <input type="email" placeholder="Your email address..."/>
                                         <div className="blank-arrow">
-                                            <label>Web Site</label>
+                                            <label>Phone number</label>
                                         </div>
-                                        <input type="email" placeholder="current city..."/>
+                                        <input type="text" placeholder="Phone number"/>
                                     </form>
                                 </div>
                                 <div className="col-sm-8">
                                     <div className="text-area">
                                         <div className="blank-arrow">
-                                            <label>Your Name</label>
+                                            <label>Your Comment</label>
                                         </div>
                                         <span>*</span>
                                         <textarea name="message" rows="11"></textarea>
-                                        <a className="btn btn-primary" href="">post comment</a>
+                                        <a className="btn btn-primary" href="">POST COMMENT</a>
                                     </div>
                                 </div>
                             </div>

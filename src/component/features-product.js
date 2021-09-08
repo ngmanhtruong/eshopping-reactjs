@@ -23,13 +23,6 @@ class FeaturesProducts extends Component {
             this.setState({productPerPage:6});
         }
     }
-    //CHECK IF THIS CLASS IS USED TO CREATE CUSTOM PRODUCTS
-    checkCustomArr = () =>{
-        if(this.state.customArr)
-            return true;
-        else 
-            return false;
-    }
     //HANDLE CLICK EVENT WHEN CLICK TO VIEW PAGES
     changePageHandler = (page,ev)=>{
         ev.preventDefault();
@@ -57,24 +50,18 @@ class FeaturesProducts extends Component {
         return pages;
     }
     componentDidMount(){
-        fetch('https://fakestoreapi.com/products')
-            .then(res=>res.json())
-            .then(data=>{
-                this.propsCheck();
-                let startIndex = this.productPerPage *(this.state.currentPage - 1);
-                let endIndex = startIndex + this.productPerPage;//this.state.productPerPage*this.state.currentPage
-                let currentProducts = data.slice(startIndex,endIndex);
-                //Update numberPages
-                this.numberPages = Math.ceil(data.length/this.productPerPage);
-                this.products = data;
-                if (this.checkCustomArr()){
-                    this.setState({currentProducts:data}); 
-                }else{
-                    this.setState({currentProducts:currentProducts}); 
-                }
-                
-            })
-            .catch(err=>console.log(err));
+        this.propsCheck();
+        let startIndex = this.productPerPage *(this.state.currentPage - 1);
+        let endIndex = startIndex + this.productPerPage;//this.state.productPerPage*this.state.currentPage
+        let currentProducts = this.props.datas.slice(startIndex,endIndex);
+        //Update numberPages
+        this.numberPages = Math.ceil(this.props.datas.length/this.productPerPage);
+        this.products = this.props.datas;
+        if (this.state.customArr){
+            this.setState({currentProducts:this.props.datas}); 
+        }else{
+            this.setState({currentProducts:currentProducts}); 
+        }
     }
     render() {
         return (
@@ -92,7 +79,7 @@ class FeaturesProducts extends Component {
                             <Product data = {data} key = {data.id} overlay = {this.props.options.overlay} choose = {this.props.options.choose} col = {this.props.options.col}/>
                         )
                 })}            
-                {!this.checkCustomArr() &&
+                {!this.state.customArr && this.state.currentProducts != [] &&
                 <ul className="pagination">
                     {this.createListPage(this.numberPages)}
                     <li><a href="">&raquo;</a></li>

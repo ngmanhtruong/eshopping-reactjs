@@ -29,14 +29,14 @@ class Homepage extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-3">
-                            <LeftSideBar data = {this.state.data} category={this.state.category}/>
+                            <LeftSideBar data = {this.state.data}/>
                         </div>
 
                         <div className="col-sm-9 padding-right">
                             <div className="features_items">
                                 {/* <!--features_items--> */}
                                 <h2 className="title text-center">Features Items</h2>
-                                <FeaturesProducts arr = {[1,3,5,17,18,19]} customArr = {true} options = {{overlay : true, col : 4, choose: true}}/>
+                                <FeaturesProducts datas = {this.state.data} arr = {[1,3,5,17,18,19]} customArr = {true} options = {{overlay : true, col : 4, choose: true}}/>
                             </div>
                             {/* <!--features_items--> */}
 
@@ -130,10 +130,10 @@ class Homepage extends Component {
                                 <div id="recommended-item-carousel" className="carousel slide" data-ride="carousel">
                                     <div className="carousel-inner">
                                         <div className="item active">
-                                            <FeaturesProducts arr = {[2,4,6]} customArr = {true} options = {{overlay: false, col : 4, choose: false}}/>
+                                            <FeaturesProducts datas = {this.state.data} arr = {[2,4,6]} customArr = {true} options = {{overlay: false, col : 4, choose: false}}/>
                                         </div>
                                         <div className="item">
-                                            <FeaturesProducts arr = {[8,16,20]} customArr = {true} options = {{overlay: false, col : 4, choose: false}}/>
+                                            <FeaturesProducts datas = {this.state.data} arr = {[8,16,20]} customArr = {true} options = {{overlay: false, col : 4, choose: false}}/>
                                         </div>
                                     </div>
                                     <a className="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">

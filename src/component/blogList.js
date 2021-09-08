@@ -6,7 +6,7 @@ class Blog extends Component {
         super(props)
         this.state = {
             data: [],
-            category: []
+            travelData: [],
         }
     }
     componentDidMount(){
@@ -14,10 +14,11 @@ class Blog extends Component {
             .then(res=>res.json())
             .then(data=>{
                 this.setState({data:data});
-                fetch('https://fakestoreapi.com/products/categories')
+                fetch('https://course-api.com/react-tours-project')
                 .then(res=>res.json())
-                .then(data=>this.setState({category:data}));
+                .then(data => this.setState({travelData:data}));
             });
+
     }
     render() {
         return (
@@ -25,7 +26,7 @@ class Blog extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-sm-3">
-                        <LeftSideBar data={this.state.data} category = {this.state.category}/>
+                        <LeftSideBar data={this.state.data}/>
                     </div>
                     <div className="col-sm-9">
                         <div className="blog-post-area">

@@ -26,7 +26,7 @@ class Footer extends Component {
                             </div>
                             </a>
                             <p>Circle of Hands</p>
-                            <h2>24 DEC 2014</h2>
+                            <h2>08 SEP 2021</h2>
                         </div>
                         </div>
             
@@ -40,8 +40,8 @@ class Footer extends Component {
                                 <i className="fa fa-play-circle-o"></i>
                             </div>
                             </a>
-                            <p>Circle of Hands</p>
-                            <h2>24 DEC 2014</h2>
+                            <p>Home Clothes</p>
+                            <h2>09 SEP 2021</h2>
                         </div>
                         </div>
             
@@ -55,8 +55,8 @@ class Footer extends Component {
                                 <i className="fa fa-play-circle-o"></i>
                             </div>
                             </a>
-                            <p>Circle of Hands</p>
-                            <h2>24 DEC 2014</h2>
+                            <p>Go to work</p>
+                            <h2>10 SEP 2021</h2>
                         </div>
                         </div>
             
@@ -70,15 +70,15 @@ class Footer extends Component {
                                 <i className="fa fa-play-circle-o"></i>
                             </div>
                             </a>
-                            <p>Circle of Hands</p>
-                            <h2>24 DEC 2014</h2>
+                            <p>Fun shopping</p>
+                            <h2>20 SEP 2021</h2>
                         </div>
                         </div>
                     </div>
                     <div className="col-sm-3">
                         <div className="address">
                         <img src="images/home/map.png" alt="" />
-                        <p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
+                        <p>Thu Duc, Ho Chi Minh city, Viet Nam.</p>
                         </div>
                     </div>
                     </div>

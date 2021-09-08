@@ -4,6 +4,13 @@ class Cart extends Component {
     constructor(props){
         super(props);
     }
+    setData(){
+        localStorage.setItem('myData',true);
+    }
+    getData(){
+        let data = localStorage.getItem('myData');
+        console.log(data);
+    }
     render() {
         return (
         <>

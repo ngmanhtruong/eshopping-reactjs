@@ -4,6 +4,14 @@ import { Link, NavLink } from 'react-router-dom';
 class Category extends Component {
     constructor(props){
         super(props);
+        this.category = [];
+    }
+    componentDidMount(){
+        fetch('https://fakestoreapi.com/products/categories')
+            .then(res=>res.json())
+            .then(data=>{
+                this.category = data;
+            });
     }
     render() {
         return (
@@ -12,7 +20,7 @@ class Category extends Component {
             <h2>Category</h2>
             <div className="panel-group category-products" id="accordian">
                 {/* <!--category-productsr--> */}
-                {this.props.data.map((category) => {
+                {this.category.map((category) => {
                     return (
                         <div key={category.toString()} className="panel panel-default">
                             <div className="panel-heading">

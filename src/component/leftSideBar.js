@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CountingProducts from './countingProducts';
 import Category from './category';
+import { Link } from 'react-router-dom';
 
 class LeftSideBar extends Component {
     constructor(props){
@@ -9,21 +10,21 @@ class LeftSideBar extends Component {
     render() {
         return (
             <div className="left-sidebar">
-                <Category data = {this.props.category}/>
+                <Category />
             
                 <div className="brands_products">
                     {/* <!--brands_products--> */}
                     <h2>Brands</h2>
                     <div className="brands-name">
                         <ul className="nav nav-pills nav-stacked">
-                            <li><a href="#"> <span className="pull-right">({CountingProducts("WD",this.props.data)})</span>Western Digital</a></li>
-                            <li><a href="#"> <span className="pull-right">({CountingProducts("Silicon Power",this.props.data)})</span>Silicon Power</a></li>
-                            <li><a href="#"> <span className="pull-right">({CountingProducts("Acer",this.props.data)})</span>Acer</a></li>
-                            <li><a href="#"> <span className="pull-right">({CountingProducts("Samsung",this.props.data)})</span>Samsung</a></li>
-                            <li><a href="#"> <span className="pull-right">({CountingProducts("Fjallraven",this.props.data)})</span>Fjallraven</a></li>
-                            <li><a href="#"> <span className="pull-right">({CountingProducts("John Hardy",this.props.data)})</span>John Hardy</a></li>
-                            <li><a href="#"> <span className="pull-right">({CountingProducts("BIYLACLESEN",this.props.data)})</span>BIYLACLESEN</a></li>
-                            <li><a href="#"> <span className="pull-right">({CountingProducts("DANVOUY",this.props.data)})</span>DANVOUY</a></li>
+                            <li><Link to="#" onClick = {e=>{e.preventDefault();}}> <span className="pull-right">({CountingProducts("WD",this.props.data)})</span>Western Digital</Link></li>
+                            <li><Link to="#" onClick = {e=>{e.preventDefault();}}> <span className="pull-right">({CountingProducts("Silicon Power",this.props.data)})</span>Silicon Power</Link></li>
+                            <li><Link to="#" onClick = {e=>{e.preventDefault();}}> <span className="pull-right">({CountingProducts("Acer",this.props.data)})</span>Acer</Link></li>
+                            <li><Link to="#" onClick = {e=>{e.preventDefault();}}> <span className="pull-right">({CountingProducts("Samsung",this.props.data)})</span>Samsung</Link></li>
+                            <li><Link to="#" onClick = {e=>{e.preventDefault();}}> <span className="pull-right">({CountingProducts("Fjallraven",this.props.data)})</span>Fjallraven</Link></li>
+                            <li><Link to="#" onClick = {e=>{e.preventDefault();}}> <span className="pull-right">({CountingProducts("John Hardy",this.props.data)})</span>John Hardy</Link></li>
+                            <li><Link to="#" onClick = {e=>{e.preventDefault();}}> <span className="pull-right">({CountingProducts("BIYLACLESEN",this.props.data)})</span>BIYLACLESEN</Link></li>
+                            <li><Link to="#" onClick = {e=>{e.preventDefault();}}> <span className="pull-right">({CountingProducts("DANVOUY",this.props.data)})</span>DANVOUY</Link></li>
                         </ul>
                     </div>
                 </div>
@@ -52,11 +53,12 @@ class LeftSideBar extends Component {
                     </div>
                 </div>
                 }
-                
+                {this.props.offAds == false &&
                 <div className="shipping text-center">
                     {/* <!--shipping--> */}
                     <img src="images/home/shipping.jpg" alt="" />
                 </div>
+                }
                 {/* <!--/shipping--> */}
             </div>
                         
