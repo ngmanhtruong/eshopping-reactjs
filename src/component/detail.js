@@ -32,7 +32,6 @@ function Detail(props){
                         cat = product.category;
                     }
                 })
-                console.log(cat);
                 fetch(`https://fakestoreapi.com/products/category/${cat}`)
                     .then(res=>res.json())
                     .then(data=>{
@@ -43,6 +42,7 @@ function Detail(props){
                     });
             })
             .catch((err)=>console.log(err));
+
     },[id]);
 
     return (

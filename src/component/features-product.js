@@ -9,6 +9,7 @@ class FeaturesProducts extends Component {
             arr: this.props.arr,
             customArr: this.props.customArr,
             currentPage: this.props.currentPage,
+            datas: this.props.datas,
         }
         this.productPerPage = this.props.productPerPage;    //HOW MANY PRODUCTS ON A PAGE
         this.numberPages = 1;                               //DEFAULT NUMBER OF PAGINATION
@@ -51,16 +52,15 @@ class FeaturesProducts extends Component {
     }
     componentDidMount(){
         this.propsCheck();
+        console.log(this.state.datas);
         let startIndex = this.productPerPage *(this.state.currentPage - 1);
         let endIndex = startIndex + this.productPerPage;//this.state.productPerPage*this.state.currentPage
-        let currentProducts = this.props.datas.slice(startIndex,endIndex);
+        let currentProducts = this.state.datas.slice(startIndex,endIndex);
         //Update numberPages
-        this.numberPages = Math.ceil(this.props.datas.length/this.productPerPage);
-        this.products = this.props.datas;
+        this.numberPages = Math.ceil(this.state.datas.length/this.productPerPage);
+        this.products = this.state.datas;
         if (this.state.customArr){
-            this.setState({currentProducts:this.props.datas}); 
-        }else{
-            this.setState({currentProducts:currentProducts}); 
+            this.setState({currentProducts:this.state.datas}); 
         }
     }
     render() {

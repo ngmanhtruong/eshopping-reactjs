@@ -4,7 +4,8 @@ import CountingProducts from './countingProducts';
 import FeaturesProducts from './features-product';
 import LeftSideBar from './leftSideBar';
 import { useParams, withRouter } from 'react-router';
-function ShopPage(props){
+
+const ShopPage = ({setKeyword}) => {
 
     const[data,setData] = useState([]);
     const[arr,setArr] = useState([]);
@@ -19,6 +20,7 @@ function ShopPage(props){
                     .then(res=>res.json())
                     .then(data=>setArr(data));
             });
+        console.log(category);
     },[category])
 
     return (

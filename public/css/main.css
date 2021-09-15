@@ -271,12 +271,14 @@ a#scrollUp i{
   z-index: 2;
   right: 0;
   width: 300px;
+  transition: all ease 0.3s;
 }
 .search_box ul li{
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   text-align: center;
+  transition: all ease 0.3s;
 }
 .search_box ul li a{
   color: #FE980F;

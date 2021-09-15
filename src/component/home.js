@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import Category from './category';
 import FeaturesProducts from './features-product';
 import Product from './product';
-import CountingProducts from './countingProducts';
 import LeftSideBar from './leftSideBar';
 
 class Homepage extends Component {
@@ -143,10 +141,9 @@ class Homepage extends Component {
                                         <i className="fa fa-angle-right"></i>
                                     </a>
                                 </div>
+                            </div>
+                            {/* <!--/recommended_items--> */}
                         </div>
-                        {/* <!--/recommended_items--> */}
-
-                    </div>
                     </div>
                 </div>
             </section>

@@ -18,11 +18,12 @@ import React, { Component, useState,useEffect } from 'react';
 import DetailHook from './component/detailHook';
 
 function App() {
+  const [keyword,setKeyword] = useState('');
   return (
     <>
     <Router>
       {/* PAGE HEADER */}
-      <Header />
+      <Header setKeyword = {setKeyword}/>
 
         <Switch>
           <Route exact path = "/">
@@ -30,7 +31,7 @@ function App() {
             <Homepage />
           </Route>
 
-          <Route path = "/shop/:category" children={<ShopPage />}>
+          <Route exact path = "/shop/:category" children={<ShopPage keyword={keyword}/>}>
           </Route>
 
           <Route path = "/shop">
