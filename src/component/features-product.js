@@ -1,47 +1,35 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import Product from './product';
 
-class FeaturesProducts extends Component {
-    constructor(props){
-        super(props);
-        this.state = { //all the products
-            currentProducts: [],
-            arr: this.props.arr,
-            customArr: this.props.customArr,
-            currentPage: this.props.currentPage,
-            datas: this.props.datas,
-        }
-        this.productPerPage = this.props.productPerPage;    //HOW MANY PRODUCTS ON A PAGE
-        this.numberPages = 1;                               //DEFAULT NUMBER OF PAGINATION
-        this.products = [];                                 //THIS IS THE WHOLE PRODUCTS FETCH FROM API
-    }
-    //IF USER DONT PUT THE CURRENTPAGE AND PRODUCTPERPAGE,THIS WILL ASIGN IT AUTOMATICALLY
-    propsCheck = () => {
-        if(!this.props.currentPage){
-            this.setState({currentPage:1});
-        }
-        if(!this.props.productPerPage){
-            this.setState({productPerPage:6});
-        }
-    }
+//hooks
+import { useFetchProducts } from './hooks/useFetchProducts';
+import { Spinner } from './Spinner/Spinner.styles';
+
+
+const FeaturesProducts = ({ arr, customArr, options, productPerPage = 6, currentPage = 1 }) => {
+    const { state: datas, loading, error } = useFetchProducts();
+    const [currentProducts, setCurrentProducts] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [thisCurrentPage, setThisCurrentPage] = useState(currentPage);
+    let numberPages = 1;                               //DEFAULT NUMBER OF PAGINATION
+    
     //HANDLE CLICK EVENT WHEN CLICK TO VIEW PAGES
-    changePageHandler = (page,ev)=>{
+    const changePageHandler = (page,ev)=>{
         ev.preventDefault();
-        let startIndex = this.productPerPage * (page - 1);
-        let endIndex = startIndex + this.productPerPage;
-        let currentProducts = this.products.slice(startIndex,endIndex);
+        let startIndex = productPerPage * (page - 1);
+        let endIndex = startIndex + productPerPage;
+        let currentProducts = products.slice(startIndex,endIndex);
+
         //UPDATE STATE
-        this.setState({
-            currentProducts: currentProducts,
-            currentPage: page,
-        })
+        setCurrentProducts(currentProducts);
+        setThisCurrentPage(page)
     }
     //CREATE PAGINATION
-    createListPage = (numberPage) =>{
+    const createListPage = (numberPage) =>{
         let pages = [];
         for (let i = 1;i <= numberPage;i++){
             pages.push(
-                <li key = {i} className={this.state.currentPage === i?'active':''}>
+                <li key = {i} className={thisCurrentPage === i?'active':''}>
                     <a href="" onClick = {(ev)=> this.changePageHandler(i,ev)}>
                         {i}
                     </a>
@@ -50,44 +38,61 @@ class FeaturesProducts extends Component {
         }
         return pages;
     }
-    componentDidMount(){
-        this.propsCheck();
-        console.log(this.state.datas);
-        let startIndex = this.productPerPage *(this.state.currentPage - 1);
-        let endIndex = startIndex + this.productPerPage;//this.state.productPerPage*this.state.currentPage
-        let currentProducts = this.state.datas.slice(startIndex,endIndex);
+
+    useEffect(()=>{
+        let startIndex = productPerPage * (thisCurrentPage - 1);
+        let endIndex = startIndex + productPerPage;//this.state.productPerPage*this.state.currentPage
+        setProducts(datas.slice(startIndex,endIndex));
+        
         //Update numberPages
-        this.numberPages = Math.ceil(this.state.datas.length/this.productPerPage);
-        this.products = this.state.datas;
-        if (this.state.customArr){
-            this.setState({currentProducts:this.state.datas}); 
+        numberPages = Math.ceil(datas.length/productPerPage);
+        setProducts(datas);
+
+        if (customArr){
+            setCurrentProducts(datas);
+        } else{
+            setCurrentProducts(products);
         }
-    }
-    render() {
-        return (
+    })
+
+    return (
+        <>
             <>
-                {this.state.currentProducts.map((data) => {
-                    if (this.state.customArr){
-                        if(this.state.arr.includes(data.id)){
-                            return (
-                                <Product data = {data} key = {data.id} overlay = {this.props.options.overlay} choose = {this.props.options.choose} col = {this.props.options.col}/>
-                            )
-                        }
-                    }
-                    else
+            {currentProducts && currentProducts.map((data) => {
+                if (customArr){
+                    if(arr.includes(data.id)){
                         return (
-                            <Product data = {data} key = {data.id} overlay = {this.props.options.overlay} choose = {this.props.options.choose} col = {this.props.options.col}/>
+                            <Product 
+                                data={data} 
+                                key={data.id} 
+                                overlay={options.overlay} 
+                                choose={options.choose} 
+                                col={options.col}
+                            />
                         )
-                })}            
-                {!this.state.customArr && this.state.currentProducts != [] &&
-                <ul className="pagination">
-                    {this.createListPage(this.numberPages)}
-                    <li><a href="">&raquo;</a></li>
-                </ul>
+                    }
                 }
-            </>
-        );
-    }
+                else
+                    return (
+                        <Product 
+                            data={data} 
+                            key={data.id} 
+                            overlay={options.overlay} 
+                            choose={options.choose} 
+                            col={options.col}
+                        />
+                    )
+            })}
+            </>            
+            {!customArr && currentProducts !== [] &&
+            <ul className="pagination">
+                {createListPage(numberPages)}
+                <li><a href="">&raquo;</a></li>
+            </ul>
+            }
+        </>
+    );
+
 }
 
 export default FeaturesProducts;

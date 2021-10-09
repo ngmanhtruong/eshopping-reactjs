@@ -20,7 +20,7 @@ const Blog = () => {
         <div className="container">
             <div className="row">
                 <div className="col-sm-3">
-                    <LeftSideBar data={this.state.data}/>
+                    <LeftSideBar data={data}/>
                 </div>
                 <div className="col-sm-9">
                     <div className="blog-post-area">

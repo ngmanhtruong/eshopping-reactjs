@@ -15,12 +15,15 @@ import Blog from './component/blogList';
 import BlogSingle from './component/blogSingle';
 import Thankyou from './component/thankyou';
 import React, { Component, useState,useEffect } from 'react';
-import DetailHook from './component/detailHook';
+import { FilterContext } from './filterContext';
 
 function App() {
   const [keyword,setKeyword] = useState('');
+  const [filter, setFilter] = useState({sortBy:'name',sortOrder:'asc',keyword:'men'});
+
   return (
     <>
+    <FilterContext.Provider value={filter}>
     <Router>
       {/* PAGE HEADER */}
       <Header setKeyword = {setKeyword}/>
@@ -35,7 +38,7 @@ function App() {
           </Route>
 
           <Route path = "/shop">
-            <ShopPage />
+            <ShopPage keyword={keyword}/>
           </Route>
 
           <Route path = "/detail/:id" children={<Detail />}>
@@ -77,6 +80,7 @@ function App() {
       {/* PAGE FOOTER */}
       <Footer />
     </Router>
+    </FilterContext.Provider>
     </>
   );
 } 

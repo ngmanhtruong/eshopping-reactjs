@@ -9,7 +9,6 @@ class Cart extends Component {
     }
     getData(){
         let data = localStorage.getItem('myData');
-        console.log(data);
     }
     render() {
         return (

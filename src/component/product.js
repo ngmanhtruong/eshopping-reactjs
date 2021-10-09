@@ -8,6 +8,32 @@ class Product extends Component {
             data: this.props.data,
         }
     }
+    addToCart = (e) =>{
+        e.preventDefault();
+        const {data} = this.props;
+        //get from localStorage
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        if(cart == null){
+            cart = [];
+        }
+        let foundIndex = -1;
+        for (let i = 0; i < cart.length; i++){
+            if (cart[i].id === data.id){
+                foundIndex = i;
+            }
+        }
+        foundIndex = cart.findIndex((p) => p.id === p.id);
+        if (foundIndex == -1) {
+            cart.push({id:data.id, price:data.price, title: data.title, image: data.image, qty: 1})
+        } else{
+            cart[foundIndex].qty++;
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        //Tinh tong
+        let total = cart.reduce((prev,p)=> prev + p.qty,0);
+        
+    }
     render() {
         let col = "col-sm-4";
         return (
@@ -18,7 +44,6 @@ class Product extends Component {
                         <img src={this.state.data.image} alt={this.state.data.title} data-fancybox={"product"+this.state.data.id} data-src={this.state.data.image}/>
                         <h2>{"$" + this.state.data.price}</h2>
                         <p>{this.state.data.title}</p>
-                        <a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
                     </div>
                     {this.props.overlay &&
                     <div className="product-overlay">
@@ -35,7 +60,7 @@ class Product extends Component {
                 <div className="choose">
                     <ul className="nav nav-pills nav-justified">
                         <li><a href="#"><i className="fa fa-plus-square"></i>Add to wishlist</a></li>
-                        <li><a href="#"><i className="fa fa-plus-square"></i>Add to compare</a></li>
+                        <li><a href="#" onClick={(e) => this.addToCart(e)}><i className="fa fa-plus-square"></i>Add to cart</a></li>
                     </ul>
                 </div>
                 }

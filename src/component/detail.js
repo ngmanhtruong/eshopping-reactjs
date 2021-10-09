@@ -4,12 +4,14 @@ import NoMatch from './404Error';
 import LeftSideBar from './leftSideBar';
 import Product from './product';
 import { Link } from 'react-router-dom';
+import { Spinner } from './Spinner/Spinner.styles';
 
 function Detail(props){
 
     const [data, setData] = useState([]);
     const [product, setProduct] = useState([]);
     const [recProduct, setrecProduct] = useState([]);
+    const [loading, setLoading] = useState(false);
     const {id} = useParams();
 
     function getData(data,id){
@@ -21,6 +23,7 @@ function Detail(props){
     }
 
     useEffect(()=>{
+        setLoading(true);
         fetch('https://fakestoreapi.com/products')
             .then(res=>res.json())
             .then(data=>{
@@ -40,9 +43,9 @@ function Detail(props){
                         });
                         setrecProduct(temp);
                     });
+                setLoading(false);
             })
             .catch((err)=>console.log(err));
-
     },[id]);
 
     return (
@@ -53,7 +56,7 @@ function Detail(props){
                     <div className="col-sm-3">
                         <LeftSideBar data = {data}/>
                     </div>
-                        
+                    {loading ? <Spinner /> :   
                     <div className="col-sm-9 padding-right">
                         <div className="product-details">
                             {/* <!--product-details--> */}
@@ -225,6 +228,7 @@ function Detail(props){
                         {/* <!--/recommended_items--> */}
                     
                     </div>
+                    }
                 </div>
             </div>
         </section>

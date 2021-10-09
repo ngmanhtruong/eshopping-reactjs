@@ -1,8 +1,9 @@
 import React, { Component, useState, useEffect } from 'react';
 import {Link, NavLink} from 'react-router-dom';
+import { useFetchProducts } from './hooks/useFetchProducts';
 
 const Header = ({setKeyword}) => {
-    const [data, setData] = useState([]);
+    const { data, loading, error } = useFetchProducts();
     const [filteredData, setFilteredData] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [clearSearch, setClearSearch] = useState(false);
@@ -44,15 +45,6 @@ const Header = ({setKeyword}) => {
         window.keyword = searchValue;
         setKeyword(searchValue);
     }
-    const getData = () =>{
-        fetch('https://fakestoreapi.com/products')
-            .then(res=>res.json())
-            .then(data=>setData(data));
-    }
-    
-    useEffect(()=>{
-        getData();
-    },[]);
     
     return (
         <header id="header">{/*<!--header-->*/}
@@ -86,7 +78,7 @@ const Header = ({setKeyword}) => {
                     <div className="row">
                         <div className="col-sm-4">
                             <div className="logo pull-left">
-                                <Link to="index.html"><img src="images/home/logo.png" alt="" /></Link>
+                                <Link to="/"><img src="images/home/logo.png" alt="" /></Link>
                             </div>
                             <div className="btn-group pull-right">
                                 <div className="btn-group">

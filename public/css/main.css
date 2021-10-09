@@ -1081,6 +1081,7 @@ h2.title {
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 .category-tab ul  li  a:hover{
