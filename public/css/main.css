@@ -8,7 +8,6 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background:;
   position: relative;
   font-weight:400px;
 }
@@ -20,6 +19,7 @@ ul li {
 a:hover {
 outline: none;
 text-decoration:none;
+cursor: pointer;
 }
 
 a:focus {
@@ -938,7 +938,7 @@ h2.title {
   transition: height 500ms ease 0s;
   width: 100%;
   display: block;
-  opacity:;
+  opacity: .9;
 }
 
 .single-products:hover .product-overlay {
