@@ -17,16 +17,22 @@ import Thankyou from './component/thankyou';
 import React, { Component, useState,useEffect } from 'react';
 import { FilterContext } from './filterContext';
 
-function App() {
-  const [keyword,setKeyword] = useState('');
-  const [filter, setFilter] = useState({sortBy:'name',sortOrder:'asc',keyword:'men'});
+import { loadData, selectProducts } from './features/products/productsSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
+const App = () => {
+
+  const products = useSelector(selectProducts);
+  const dispatch = useDispatch();
+  const onFirstRender = () => {
+    dispatch(loadData());
+  }
+  // useEffect(onFirstRender,[]);
   return (
     <>
-    <FilterContext.Provider value={filter}>
     <Router>
       {/* PAGE HEADER */}
-      <Header setKeyword = {setKeyword}/>
+      <Header />
 
         <Switch>
           <Route exact path = "/">
@@ -34,11 +40,11 @@ function App() {
             <Homepage />
           </Route>
 
-          <Route exact path = "/shop/:category" children={<ShopPage keyword={keyword}/>}>
+          <Route exact path = "/shop/:category" children={<ShopPage />}>
           </Route>
 
           <Route path = "/shop">
-            <ShopPage keyword={keyword}/>
+            <ShopPage />
           </Route>
 
           <Route path = "/detail/:id" children={<Detail />}>
@@ -68,9 +74,9 @@ function App() {
             <BlogSingle />
           </Route>
           
-          {/* <Route path = "/thankyou">
+          <Route path = "/thankyou">
             <Thankyou />
-          </Route> */}
+          </Route>
 
           {/* ERROR 404 */}
           <Route path = "*">
@@ -80,7 +86,6 @@ function App() {
       {/* PAGE FOOTER */}
       <Footer />
     </Router>
-    </FilterContext.Provider>
     </>
   );
 } 

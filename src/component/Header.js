@@ -1,15 +1,19 @@
 import React, { Component, useState, useEffect } from 'react';
 import {Link, NavLink} from 'react-router-dom';
 import { useFetchProducts } from './hooks/useFetchProducts';
+import { removeFromFavorites, selectFavorites } from '../features/favorites/favoritesSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Header = ({setKeyword}) => {
-    const { data, loading, error } = useFetchProducts();
+    const { state: data, loading, error } = useFetchProducts();
     const [filteredData, setFilteredData] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [clearSearch, setClearSearch] = useState(false);
 
+    const dispatch = useDispatch();
+    const favorites = useSelector(selectFavorites);
 
-    const handleChange= (ev) => {
+    const handleChange = (ev) => {
         let value = ev.target.value;
         if(value == '')
             setClearSearch(true);
@@ -20,7 +24,7 @@ const Header = ({setKeyword}) => {
         setSearchValue(value);
         setFilteredData([]);
 
-        if(value && value.trim().length > 0){
+        if(value && value.trim().length > 0 && data){
             value = value.trim().toLowerCase();
             let temp = data.filter(product=>{
                 return product.title.trim().toLowerCase().includes(value);
@@ -32,6 +36,7 @@ const Header = ({setKeyword}) => {
             setFilteredData([]);
         }
     }
+
     const getRelevancy = (value, searchTerm) => {
         if (value === searchTerm){
             return 2;
@@ -41,9 +46,17 @@ const Header = ({setKeyword}) => {
             return 0;
         }
     }
+
     const handleSubmit = (ev) =>{
         window.keyword = searchValue;
         setKeyword(searchValue);
+    }
+
+    function createFavorites(item, index){
+        return (
+            <li key={item.id}><Link to={`/detail/${item.id}`}><img src={item.image} alt={item.name}/><p>{item.name}</p></Link></li>
+        )
+
     }
     
     return (
@@ -108,7 +121,11 @@ const Header = ({setKeyword}) => {
                             <div className="shop-menu pull-right">
                                 <ul className="nav navbar-nav">
                                     <li><Link to="#"><i className="fa fa-user"></i> Account</Link></li>
-                                    <li><Link to="#"><i className="fa fa-star"></i> Wishlist</Link></li>
+                                    <li className="dropdown"><Link to="#" onClick={(e)=>{e.preventDefault()}}><i className="fa fa-star"></i> Wishlist</Link>
+                                        <ul role="menu" className="sub-menu wish-list">
+                                            {favorites && favorites.map(createFavorites)}
+                                        </ul>
+                                    </li>
                                     <li><NavLink to="/checkout" exact activeClassName="active"><i className="fa fa-crosshairs"></i>Checkout</NavLink></li> 
                                             <li><NavLink to="/cart" exact activeClassName="active"><i className="fa fa-shopping-cart"></i>Cart</NavLink></li> 
                                             <li><NavLink to="/login" exact activeClassName="active"><i className="fa fa-lock"></i> Login</NavLink></li> 
@@ -134,7 +151,7 @@ const Header = ({setKeyword}) => {
                             <div className="mainmenu pull-left">
                                 <ul className="nav navbar-nav collapse navbar-collapse">
                                     <li><NavLink to = "/" exact activeClassName="active">Home</NavLink></li>
-                                    <li className="dropdown"><Link to = "#">Products<i className="fa fa-angle-down"></i></Link> 
+                                    <li className="dropdown"><Link to = "/shop">Products<i className="fa fa-angle-down"></i></Link> 
                                         <ul role="menu" className="sub-menu">
                                             <li><NavLink to="/shop" exact activeClassName="active">All Products</NavLink> </li>
                                             <li><NavLink to="/detail/1" exact activeClassName="active">Product Details</NavLink></li> 

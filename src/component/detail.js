@@ -1,10 +1,18 @@
-import React, { Component, useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import NoMatch from './404Error';
 import LeftSideBar from './leftSideBar';
 import Product from './product';
 import { Link } from 'react-router-dom';
 import { Spinner } from './Spinner/Spinner.styles';
+import { useDispatch, useSelector } from 'react-redux';
+
+
+//redux state
+import { 
+    selectCarts,
+    addCart
+} from '../features/carts/cartsSlice';
 
 function Detail(props){
 
@@ -14,6 +22,14 @@ function Detail(props){
     const [loading, setLoading] = useState(false);
     const {id} = useParams();
 
+    const carts = useSelector(selectCarts);
+    const dispatch = useDispatch();
+    const [quantity, setQuantity] = useState(0);
+
+    const onAddCart = (item) => {
+        dispatch(addCart(item));
+    }
+
     function getData(data,id){
         data.map(product=>{
             if(product.id == id){
@@ -21,6 +37,13 @@ function Detail(props){
             }
         })
     }
+    useEffect(()=>{
+        carts.Carts.filter(item=>{
+            if (item.id == id){
+                setQuantity(item.quantity);
+            }
+        })
+    },[carts])
 
     useEffect(()=>{
         setLoading(true);
@@ -124,11 +147,11 @@ function Detail(props){
                                         <span>US ${product.price}</span>
                                     </span>
                                     <div>
-                                        <label>Quantity:</label>
-                                        <input type="text" value="3" />
-                                        <button type="button" className="btn btn-fefault cart">
+                                        <label>Quantity in Cart:</label>
+                                        <input type="text" value={quantity} />
+                                        <button type="button" className="btn btn-fefault cart" onClick={()=>onAddCart(product)}>
                                             <i className="fa fa-shopping-cart"></i>
-                                            Add to cart
+                                            Add more
                                         </button>
                                     </div>
                                     <p><b>Availability:</b> In Stock</p>
@@ -197,7 +220,7 @@ function Detail(props){
                                         {recProduct.map((value,index)=>{
                                             if([0,1,2].includes(index))
                                                 return (
-                                                    <Product key= {value.id} data={value}/>
+                                                    <Product key= {value.id} data={value} choose/>
                                                 )
                                         })}	
                                     </div>
@@ -206,7 +229,7 @@ function Detail(props){
                                         {recProduct.map((value,index)=>{
                                             if(index > 2 && index < 6){
                                                 return (
-                                                    <Product key= {value.id} data= {value}/>
+                                                    <Product key= {value.id} data= {value} choose/>
                                                 )
                                             }
                                         })}

@@ -40,12 +40,14 @@ export const useFetchProducts = () => {
         }
 
         fetchProducts();
-    },[])
+    },[]);
 
     //Write to sessionStorage
     useEffect(()=>{
         sessionStorage.setItem('allProducts',JSON.stringify(state));
     },[state]);
+
+
 
     return { state, loading, error };
 }

@@ -29,7 +29,7 @@ const Homepage = () => {
                             {/* <!--features_items--> */}
                             <h2 className="title text-center">Features Items</h2>
                             {data &&
-                                <FeaturesProducts arr = {[1,3,5,17,18,19]} customArr = {true} options = {{overlay : true, col : 4, choose: true}}/>
+                                <FeaturesProducts datas={data} arr = {[1,3,5,17,18,19]} customArr = {true} options = {{overlay : true, col : 4, choose: true}}/>
                             }
                         </div>
                         {/* <!--features_items--> */}
@@ -125,28 +125,31 @@ const Homepage = () => {
                             <div id="recommended-item-carousel" className="carousel slide" data-ride="carousel">
                                 <div className="carousel-inner">
                                     <div className="item active">
-                                        {data &&
-                                            <FeaturesProducts 
-                                                arr={[2,4,6]} 
-                                                customArr={true} 
-                                                options={{overlay:false,
-                                                        col:4, 
-                                                        choose:false}
-                                                }
-                                            />
-                                        }           
+                                        {data && data.map(item=>{
+                                            if(item.id == 2 || item.id == 4 || item.id == 6){
+                                                return (
+                                                    <Product col = {4} data = {item} key= {item.id} choose overlay/>
+                                                )
+                                            }
+                                        })}      
                                     </div>
                                     <div className="item">
-                                        {data && 
+                                        {data && data.map(item=>{
+                                            if(item.id == 8 || item.id == 16 || item.id == 20){
+                                                return (
+                                                    <Product col = {4} data = {item} key= {item.id} choose overlay/>
+                                                )
+                                            }
+                                        })}  
+                                        {/* {data && 
                                             <FeaturesProducts 
                                                 arr={[8,16,20]} 
                                                 customArr={true} 
                                                 options={{  overlay:false,
                                                             col:4, 
-                                                            choose:false}
-                                                }
+                                                            choose:true}}
                                             />
-                                            }
+                                            } */}
                                     </div>
                                 </div>
                                 <a className="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">

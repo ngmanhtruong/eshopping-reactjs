@@ -315,6 +315,36 @@ ul.sub-menu {
 	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
 	display: none;
 	z-index: 999;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  font-size: 17px;
+  font-weight: 300;
+  padding: 0;
+}
+.wish-list li{
+  width: 100%;
+}
+.wish-list li a {
+  display: flex;
+  flex-wrap: wrap;
+  background: inherit !important;
+}
+.wish-list li a img{
+  width: 20%;
+  object-fit: cover;
+}
+.wish-list li a p {
+  width: 80%;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 5px;
+}
+
+ul.sub-menu li img{
+  max-width: 50px;
+  max-height: 50px;
 }
 
 .dropdown ul.sub-menu li .active{
@@ -1705,6 +1735,10 @@ h2.title {
 .cart_product {
   display: block;
   margin: 15px -70px 10px 25px;
+}
+.cart_product img{
+  display: block;
+  max-width: 40px;
 }
 
 .cart_quantity_button a {

@@ -1,10 +1,10 @@
 const initialState = [];
 
-export const favoritesReducer = (state = initialState, action) => {
+export const favoritesReducer = (favorites = initialState, action) => {
     switch(action.type) {
         case 'favorites/addFavorite': {
             let check = false;
-            state.map(item=>{
+            favorites.map(item=>{
                 if(item.id === action.payload.id){
                     check = true;
                     return;
@@ -17,17 +17,17 @@ export const favoritesReducer = (state = initialState, action) => {
                     image: action.payload.image,
                     price: action.payload.price
                 }
-                return [...state, favorite]
+                return [...favorites, favorite]
             }
         }
         case 'favorites/removeFromFavorites': {
-            return state.filter(item => item.id !== action.payload)
+            return favorites.filter(item => item.id !== action.payload)
         }
         case 'favorites/removeAll': {
             return initialState;
         }
         default:
-            return state;
+            return favorites;
     }
 }
 

@@ -13,8 +13,6 @@ import {
 
 const Product = ({ data, col, overlay, choose }) => {
     const [product, setProduct] = useState([]);
-    const carts = useSelector(selectCarts);
-    const favorites = useSelector(selectFavorites);
     const dispatch = useDispatch();
     const thisCol = "col-sm-4";
 
@@ -23,10 +21,12 @@ const Product = ({ data, col, overlay, choose }) => {
     },[])
 
     const onAddCart = (item) => {
+        // console.log("dispatchAddCart");
         dispatch(addCart(item));
     }
 
     const onAddFavorites = (item) => {
+        // console.log("dispatchAddFavorites");
         dispatch(addFavorite(item));
     }
     
@@ -44,7 +44,7 @@ const Product = ({ data, col, overlay, choose }) => {
                         <div className="overlay-content">
                             <h2>{"$" + product.price}</h2>
                             <p>{product.title}</p>
-                            <a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
+                            <a onClick={() => onAddCart(product)} className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
                             <Link to={`/detail/${product.id}`} className="btn btn-default see-detail"><i className="fas fa-info-circle"></i>See Detail</Link>
                         </div>
                     </div>

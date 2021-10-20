@@ -1,6 +1,7 @@
 const initialState = {
     numberInCart: 0,
-    carts: []
+    total: 0,
+    Carts: []
 };
 
 export const loadData = () => {
@@ -15,7 +16,7 @@ export const cartsReducer = (state = initialState, action) => {
             return state;
         }
         case 'cart/addCart': {
-            if (state.numberInCart === 0){
+            if (state.numberInCart == 0){
                 let cart = {
                     id: action.payload.id,
                     quantity: 1,
@@ -24,22 +25,19 @@ export const cartsReducer = (state = initialState, action) => {
                     price: action.payload.price,
                     description: action.payload.description
                 }
-                return {
-                    ...state,
-                    carts: [...state.carts, cart]
-                }
+                state.Carts.push(cart);
             }
             else {
                 let check = false;
-                state.carts.map(item => {
-                    if (item.id === action.payload.id){
-                        item.quantity++;
+                state.Carts.map((item, index) => {
+                    if (item.id == action.payload.id){
+                        state.Carts[index].quantity++;
                         check = true;
                         return;
                     }
                 })
                 if(!check){
-                    let cart = {
+                    let _cart = {
                         id: action.payload.id,
                         quantity: 1,
                         name: action.payload.title,
@@ -47,37 +45,33 @@ export const cartsReducer = (state = initialState, action) => {
                         price: action.payload.price,
                         description: action.payload.description
                     }
-                    return {
-                        ...state,
-                        carts: [...state.carts, cart]
-                    }
+                    state.Carts.push(_cart);
                 }
             }
             return {
                 ...state,
-                numberInCart: state.numberInCart + 1
+                numberInCart: state.numberInCart + 1,
+                total: state.total + action.payload.price
             }
         }
-        case 'cart/decreseCart': {
-            let quantity = state.carts[action.payload].quantity;
+        case 'cart/decreaseCart': {
+            let quantity = state.Carts[action.payload].quantity;
             if (quantity > 1){
                 state.numberInCart--;
-                state.carts[action.payload].quantity--;
+                state.Carts[action.payload].quantity--;
+                state.total -= state.Carts[action.payload].price;
             }
-            if (quantity === 1){
-                state.numberInCart--;
-                return {
-                    ...state,
-                    carts: state.carts.filter(item=>item.id !== state.carts[action.payload].id)
-                }
+            return {
+                ...state
             }
         }
         case 'cart/removeFromCart': {
-            let quantity = state.carts[action.payload].quantity;
+            let quantity = state.Carts[action.payload].quantity;
             return {
                 ...state,
                 numberInCart: state.numberInCart - quantity,
-                carts: state.carts.filter(item => item.id !== state.carts[action.payload].id)
+                total: state.total - (state.Carts[action.payload].quantity * state.Carts[action.payload].price),
+                Carts: state.Carts.filter(item => item.id != state.Carts[action.payload].id)
             }
         }
         case 'cart/removeAll': {
@@ -88,10 +82,10 @@ export const cartsReducer = (state = initialState, action) => {
     }
 }
 
-export function addCart(item){
+export function addCart(payload){
     return{
         type: 'cart/addCart',
-        payload: item
+        payload
     }
 }
 
